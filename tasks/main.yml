@@ -1,0 +1,17 @@
+---
+
+- name: Commenting a line using the regualr expressions in Ansible.
+  replace:
+    path: /etc/fstab
+    regexp: '(.*swap.*)'
+    replace: '#\1'
+
+- name: Remove swapfile from /etc/fstab
+  mount:
+    name: swap
+    fstype: swap
+    state: absent
+
+- name: Disable swap
+  command: swapoff -a
+  when: ansible_swaptotal_mb > 0
